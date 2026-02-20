@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hy-Bridge | Calendar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container">
+    <header class="common-header">
+        <a href="index.html" class="header-logo">Hy-Bridge</a>
+        <div class="header-actions">
+            <button class="header-btn">나은 님</button> 
+            <button class="alarm-btn">
+                <i class="fa-solid fa-bell"></i>
+            </button>
+        </div>
+    </header>
+  <header class="main-header">
+    <h1 class="logo-text">2026년 4월</h1>
+    <div class="nav-btns">
+      <button class="btn-circle"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+      <button class="btn-circle"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="calendar-grid day-header">
+      <div style="color: var(--danger-color);">일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div style="color: #60A5FA;">토</div>
+    </div>
+
+    <div class="calendar-grid" id="cal">
+      <div></div><div></div><div></div>
+      <div class="calendar-day" data-date="2026-04-01"><span>1</span></div>
+      <div class="calendar-day" data-date="2026-04-02"><span>2</span></div>
+      <div class="calendar-day" data-date="2026-04-03"><span>3</span></div>
+      <div class="calendar-day" data-date="2026-04-04"><span>4</span></div>
+      <div class="calendar-day" data-date="2026-04-15"><span>15</span></div>
+      <div class="calendar-day" data-date="2026-04-16"><span>16</span></div>
+      <div class="calendar-day" data-date="2026-04-17"><span>17</span></div>
+      <div class="calendar-day" data-date="2026-04-18"><span>18</span></div>
+      <div class="calendar-day" data-date="2026-04-19"><span>19</span></div>
+      <div class="calendar-day" data-date="2026-04-20"><span>20</span></div>
+      <div class="calendar-day" data-date="2026-04-21"><span>21</span></div>
+      <div class="calendar-day" data-date="2026-04-22"><span>22</span></div>
+      <div class="calendar-day" data-date="2026-04-23"><span>23</span></div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item"><span class="dot-red"></span>학교 일정</div>
+      <div class="legend-item"><span class="dot-yellow"></span>AI 예보</div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="details">
+      <h3 id="dayTitle">날짜를 선택하세요</h3>
+
+      <div id="conflictCard" class="alert-box conflict-card" style="display: none;">
+        <div class="alert-header">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>일정 충돌 경고!</span>
+        </div>
+        <p class="alert-text" id="conflictText"></p>
+        <button id="goLog" class="action-btn-black">지금 기록 만들어두기</button>
+      </div>
+
+      <div id="scheduleList" class="schedule-list"></div>
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>홈</span>
+    </a>
+    <a href="log.html" class="nav-item">
+      <i class="fa-solid fa-pen-to-square"></i>
+      <span>로그</span>
+    </a>
+    <a href="career.html" class="nav-item">
+      <i class="fa-solid fa-briefcase"></i>
+      <span>커리어</span>
+    </a>
+    <a href="calendar.html" class="nav-item active">
+      <i class="fa-solid fa-calendar-days"></i>
+      <span>캘린더</span>
+    </a>
+  </nav>
+</div>
+
+<script>
+  const KEY_OPPS = "hybridge_opportunities_v1";
+  const KEY_EVENTS = "hybridge_school_events_v1";
+
+  // 초기 데이터 세팅
+  function seedData(){
+    if (!localStorage.getItem(KEY_EVENTS)) {
+      const seeded = [{ id:"exam-1", title:"사회학이론 중간고사", date:"2026-04-20", time:"09:00" }];
+      localStorage.setItem(KEY_EVENTS, JSON.stringify(seeded));
+    }
+  }
+  seedData();
+
+  function renderDots(){
+    const events = JSON.parse(localStorage.getItem(KEY_EVENTS) || "[]");
+    const opps = JSON.parse(localStorage.getItem(KEY_OPPS) || "[]");
+
+    document.querySelectorAll(".calendar-day").forEach(cell => {
+      const date = cell.dataset.date;
+      const hasRed = events.some(e => e.date === date);
+      const hasYellow = opps.some(o => o.predictedDate === date);
+
+      const old = cell.querySelector(".dot-container");
+      if (old) old.remove();
+
+      if (hasRed || hasYellow){
+        const container = document.createElement("div");
+        container.className = "dot-container";
+        if (hasRed) container.innerHTML += '<span class="dot dot-red"></span>';
+        if (hasYellow) container.innerHTML += '<span class="dot dot-yellow"></span>';
+        cell.appendChild(container);
+
+        if (hasRed && hasYellow) cell.classList.add("has-conflict");
+      }
+    });
+  }
+
+  function selectDate(date){
+    document.getElementById("dayTitle").textContent = `${date} 일정`;
+    const list = document.getElementById("scheduleList");
+    list.innerHTML = "";
+
+    const events = JSON.parse(localStorage.getItem(KEY_EVENTS) || "[]").filter(e => e.date === date);
+    const opps = JSON.parse(localStorage.getItem(KEY_OPPS) || "[]").filter(o => o.predictedDate === date);
+
+    events.forEach(e => {
+      list.innerHTML += `<div class="schedule-item"><div class="time">${e.time}</div><div class="label bg-red">${e.title}</div></div>`;
+    });
+    opps.forEach(o => {
+      list.innerHTML += `<div class="schedule-item"><div class="time">—</div><div class="label bg-yellow">[예상] ${o.title}</div></div>`;
+    });
+
+    const card = document.getElementById("conflictCard");
+    if (events.length > 0 && opps.length > 0){
+      document.getElementById("conflictText").innerHTML = `중요 일정 <b>${events[0].title}</b>과 예보 일정이 겹칩니다.`;
+      card.style.display = 'block';
+      document.getElementById("goLog").onclick = () => { location.href = "log.html"; };
+    } else {
+      card.style.display = 'none';
+    }
+  }
+
+  document.querySelectorAll(".calendar-day").forEach(cell => {
+    cell.addEventListener("click", () => selectDate(cell.dataset.date));
+  });
+  renderDots();
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hy-Bridge | Log</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="common-header">
+            <a href="index.html" class="header-logo">Hy-Bridge</a>
+            <div class="header-actions">
+                <button class="header-btn">나은 님</button> 
+                <button class="alarm-btn">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+            </div>
+        </header>
+        <header class="main-header">
+            <h1 class="logo">라이프 로그</h1>
+            <div class="status-badge">✨ AI 자동분석 ON</div>
+        </header>
+
+        <main class="content">
+            <div class="filter-tabs">
+                <button class="tab active">전체</button>
+                <button class="tab">경험정리</button>
+                <button class="tab">자소서 소스</button>
+            </div>
+
+            <div id="logList" class="log-list">
+                
+                <section id="aiResult" class="ai-result-card" style="display: none;">
+                    <div class="ai-header">
+                        <i class="fa-solid fa-robot"></i>
+                        <span class="ai-status-text">AI가 이력을 3초 만에 정리했어요!</span>
+                    </div>
+
+                    <div class="ai-card-content">
+                        <div class="original-quote">
+                            <p class="quote-label">원본 기록</p>
+                            <p id="displayOriginal" class="quote-text"></p>
+                        </div>
+
+                        <div class="resume-section">
+                            <div class="resume-header">
+                                <span class="resume-badge">Resume Ver.</span>
+                                <button class="edit-link">수정하기</button>
+                            </div>
+                            
+                            <div class="tag-group">
+                                <span class="tag-yellow">#위기관리</span>
+                                <span class="tag-yellow">#협업능력</span>
+                                <span class="tag-yellow">#목표달성</span>
+                            </div>
+
+                            <div class="resume-box">
+                                <p id="aiConvertedText" class="resume-text"></p>
+                            </div>
+                        </div>
+
+                        <button class="save-btn-blue">내 포트폴리오에 저장하기</button>
+                    </div>
+                </section>
+
+                <h3 class="section-title">지난 기록</h3>
+                <div class="log-card past">
+                    <div class="log-info">
+                        <span class="log-date">2026.02.10 · 3학년 1학기</span>
+                        <div class="tag-group-sm">
+                            <span class="tag-gray">#팀워크</span>
+                            <span class="tag-gray">#리더십</span>
+                        </div>
+                    </div>
+                    <p class="log-preview">팀 프로젝트 갈등 상황에서 중재자 역할을 수행하여 기한 내 제출...</p>
+                </div>
+            </div>
+        </main>
+
+        <div id="writeModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>오늘의 기록</h3>
+                    <button onclick="toggleModal()" class="close-x">&times;</button>
+                </div>
+                <textarea id="userInput" rows="4" placeholder="오늘 무슨 일이 있었나요? 친구한테 말하듯 편하게 적어보세요."></textarea>
+                
+                <button onclick="simulateAI()" id="analyzeBtn" class="analyze-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles magic-icon"></i> 기록 & 분석하기
+                </button>
+            </div>
+        </div>
+
+        <button class="fab" onclick="toggleModal()">
+            <i class="fa-solid fa-pen"></i>
+        </button>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>홈</span>
+            </a>
+            <a href="log.html" class="nav-item active">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>로그</span>
+            </a>
+            <a href="career.html" class="nav-item">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>커리어</span>
+            </a>
+            <a href="calendar.html" class="nav-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>캘린더</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // 데모용 초기값
+        document.getElementById('userInput').value = "오늘 축제 주점에서 떡볶이 100인분 팔았다. 재료 떨어질 뻔했는데 주방이랑 얘기해서 잘 해결함.";
+
+        function toggleModal() {
+            const modal = document.getElementById('writeModal');
+            modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+        }
+
+        function simulateAI() {
+            const btn = document.getElementById('analyzeBtn');
+            const input = document.getElementById('userInput').value;
+            
+            if(!input.trim()) return alert("기록을 입력해주세요!");
+
+            // 1. 로딩 상태 시뮬레이션
+            const originalBtnHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> AI 분석중...';
+            btn.disabled = true;
+
+            // 2. 1.2초 뒤 결과 출력
+            setTimeout(() => {
+                const aiResult = document.getElementById('aiResult');
+                const displayOriginal = document.getElementById('displayOriginal');
+                const aiConvertedText = document.getElementById('aiConvertedText');
+
+                // 데이터 세팅
+                displayOriginal.innerText = `"${input}"`;
+                aiConvertedText.innerText = "축제 기간 중 조리팀과 원활하게 소통하여 재고 부족 위기를 해결하고, 100인분의 판매 목표를 달성하며 목표 대비 120% 성과를 기록함.";
+
+                // 화면 변화
+                aiResult.style.display = 'block';
+                toggleModal(); // 모달 닫기
+                
+                // 버튼 복구
+                btn.innerHTML = originalBtnHTML;
+                btn.disabled = false;
+
+                // 결과창으로 부드럽게 스크롤
+                aiResult.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 1200);
+        }
+
+        // 모달 밖 클릭 시 닫기
+        window.onclick = function(event) {
+            const modal = document.getElementById('writeModal');
+            if (event.target == modal) toggleModal();
+        }
+    </script>
+</body>
+</html>

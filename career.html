@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hy-Bridge | Career</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="common-header">
+            <a href="index.html" class="header-logo">Hy-Bridge</a>
+            <div class="header-actions">
+                <button class="header-btn">나은 님</button> 
+                <button class="alarm-btn">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+            </div>
+        </header>
+        <header class="career-header">
+            <div class="header-text">
+                <h1>나은 님의 서재</h1>
+                <p class="summary">총 12개의 기록이 자산으로 쌓였어요!</p>
+            </div>
+            <button onclick="openExportModal()" class="export-btn">
+                <i class="fa-solid fa-share-nodes"></i> 내보내기
+            </button>
+        </header>
+
+        <section class="keywords-section">
+            <h2 class="section-label">My Keywords</h2>
+            <div class="tag-cloud">
+                <span class="tag-lg blue">#데이터분석 (4)</span>
+                <span class="tag-lg yellow">#위기관리 (3)</span>
+                <span class="tag-lg purple">#리더십 (2)</span>
+                <span class="tag-more">+ 더보기</span>
+            </div>
+        </section>
+
+        <main class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-item highlight">
+                <div class="timeline-dot active"></div>
+                <div class="timeline-card border-active">
+                    <span class="badge-new">NEW</span>
+                    <input type="checkbox" checked class="item-check">
+                    
+                    <div class="card-header">
+                        <span class="item-date">2026.02 (3학년 1학기)</span>
+                        <h3 class="item-title">대학 축제 주점 운영 및 위기관리</h3>
+                    </div>
+                    <div class="card-body">
+                        "축제 기간 중 조리팀과 협업하여 100인분의 재고를 완판하고, 예상 매출 대비 120%의 성과를 달성함."
+                    </div>
+                    <div class="card-footer">
+                        <span class="tag-sm">#위기관리</span>
+                        <span class="tag-sm">#협업능력</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-card">
+                    <input type="checkbox" class="item-check">
+                    <div class="card-header">
+                        <span class="item-date">2025.12 (2학년 겨울방학)</span>
+                        <h3 class="item-title">컴퓨터활용능력 1급 취득</h3>
+                    </div>
+                    <p class="item-preview text-muted">데이터 분석의 기초가 되는 스프레드시트 활용 능력 함양...</p>
+                </div>
+            </div>
+        </main>
+
+        <div id="exportModal" class="modal">
+            <div class="modal-content bottom-sheet">
+                <div class="modal-header center">
+                    <h3>어떤 형태로 내보낼까요?</h3>
+                    <p>선택된 2개의 활동을 자산화합니다.</p>
+                </div>
+                <div class="export-options">
+                    <button class="opt-btn primary">
+                        <i class="fa-solid fa-link"></i>
+                        <span>웹 링크 공유</span>
+                    </button>
+                    <button class="opt-btn">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        <span>PDF 저장</span>
+                    </button>
+                </div>
+                <button onclick="closeExportModal()" class="close-full-btn">취소</button>
+            </div>
+        </div>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item">
+                <i class="fa-solid fa-house"></i>
+                <span>홈</span>
+            </a>
+            <a href="log.html" class="nav-item">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>로그</span>
+            </a>
+            <a href="career.html" class="nav-item active">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>커리어</span>
+            </a>
+            <a href="calendar.html" class="nav-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>캘린더</span>
+            </a>
+        </nav>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>

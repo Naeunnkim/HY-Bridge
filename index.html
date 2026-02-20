@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hy-Bridge | Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="common-header">
+            <a href="index.html" class="header-logo">Hy-Bridge</a>
+            <div class="header-actions">
+                <button class="header-btn">나은 님</button> 
+                <button class="alarm-btn">
+                    <i class="fa-solid fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="content">
+            <section class="welcome-section">
+                <h2>안녕하세요, 나은님!</h2>
+                <p>오늘의 주요 일정을 확인해보세요.</p>
+            </section>
+
+            <section class="summary-cards">
+                <div class="card alert">
+                    <span class="card-label">D-3</span>
+                    <p class="card-title">사회학이론 중간고사</p>
+                </div>
+                <div class="card predict">
+                    <span class="card-label">예상</span>
+                    <p class="card-title">삼성 드림클래스 공고</p>
+                </div>
+            </section>
+
+            <section class="recent-logs">
+                <div class="section-header">
+                    <h3>최근 작성한 로그</h3>
+                    <a href="log.html" class="more-btn">전체보기</a>
+                </div>
+                <div class="log-item">
+                    <span class="log-date">02.16</span>
+                    <p class="log-title">디자이너를 위한 AI 에이전트 프로젝트 정리</p>
+                </div>
+            </section>
+        </main>
+
+        <nav class="bottom-nav">
+            <a href="index.html" class="nav-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>홈</span>
+            </a>
+            <a href="log.html" class="nav-item">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>로그</span>
+            </a>
+            <a href="career.html" class="nav-item">
+                <i class="fa-solid fa-briefcase"></i>
+                <span>커리어</span>
+            </a>
+            <a href="calendar.html" class="nav-item">
+                <i class="fa-solid fa-calendar-days"></i>
+                <span>캘린더</span>
+            </a>
+        </nav>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
